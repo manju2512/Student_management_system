@@ -1,0 +1,17 @@
+package dao;
+import model.Student;
+import db.DBconnection;
+import java.sql.*;
+import java.util.*;
+public class StudentDAO {
+
+	public static void addStudent(Student student) {
+		String sql="insert into students(1,'arjuna',22,'archery','arjuna@mahabharat.com";
+		try(Connection con = DBconnection.getConnection();
+				PreparedStatement stmt=con.prepareStatement(sql)){
+			
+		}
+
+	}
+
+}

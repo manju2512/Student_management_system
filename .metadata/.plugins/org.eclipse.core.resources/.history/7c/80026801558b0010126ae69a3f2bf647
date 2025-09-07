@@ -1,0 +1,41 @@
+package build;
+import db.DBconnection;
+import model.Student;
+import dao.StudentDAO;
+
+import java.sql.SQLException;
+import java.util.Scanner;
+public class Main {
+
+	public static void main(String[] args) throws SQLException {
+	    Scanner sc = new Scanner(System.in);
+	    StudentDAO dao = new StudentDAO();
+
+//	    System.out.println("Enter the student id:");
+//	    int id = sc.nextInt();
+//	    sc.nextLine(); // consume leftover newline
+//
+//	    System.out.println("Enter name:");
+//	    String name = sc.nextLine();
+//
+//	    System.out.println("Enter age:");
+//	    int age = sc.nextInt();
+//	    sc.nextLine(); // consume leftover newline
+//
+//	    System.out.println("Enter course:");
+//	    String course = sc.nextLine();
+//
+//	    System.out.println("Enter the Email:");
+//	    String email = sc.nextLine();
+//
+//	    Student s = new Student(id, name, age, course, email);
+//	    dao.addStudent(s); // use the dao instance, not StudentDAO class
+	    
+	    dao.deleteStudent(101);
+	    
+	  	}
+
+	
+}
+
+

@@ -1,0 +1,96 @@
+package dao;
+import model.Student;
+import db.DBconnection;
+import java.sql.*;
+import java.util.*;
+public class StudentDAO {
+
+	public static void addStudent(Student student) throws SQLException {
+	    String sql = "INSERT INTO students (id, name, age, course, email) VALUES (?, ?, ?, ?, ?)";
+	    try (Connection con = DBconnection.getConnection();
+	         PreparedStatement stmt = con.prepareStatement(sql)) {
+
+	        stmt.setInt(1, student.getId());
+	        stmt.setString(2, student.getName());
+	        stmt.setInt(3, student.getAge());
+	        stmt.setString(4, student.getCourse());
+	        stmt.setString(5, student.getEmail());
+
+	        stmt.executeUpdate(); // ✅ This executes the SQL command
+	        System.out.println("Student added successfully.");
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	}
+	
+	public static void deleteStudent(int id) throws SQLException {
+	    String sql = "DELETE FROM students WHERE id = ?";
+	    try (Connection con = DBconnection.getConnection();
+	         PreparedStatement stmt = con.prepareStatement(sql)) {
+
+	        stmt.setInt(1, id);
+	        int rows = stmt.executeUpdate();
+	        if (rows > 0) {
+	            System.out.println("Student deleted successfully.");
+	        } else {
+	            System.out.println("No student found with ID: " + id);
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	}
+	public static void updateStudent(Student student) throws SQLException {
+	    String sql = "UPDATE students SET name = ?, age = ?, course = ?, email = ? WHERE id = ?";
+	    try (Connection con = DBconnection.getConnection();
+	         PreparedStatement stmt = con.prepareStatement(sql)) {
+
+	        stmt.setString(1, student.getName());
+	        stmt.setInt(2, student.getAge());
+	        stmt.setString(3, student.getCourse());
+	        stmt.setString(4, student.getEmail());
+	        stmt.setInt(5, student.getId());
+
+	        int rows = stmt.executeUpdate();
+	        if (rows > 0) {
+	            System.out.println("Student updated successfully.");
+	        } else {
+	            System.out.println("No student found with ID: " + student.getId());
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	}
+	
+	public static List<Student> getAllStudents() throws SQLException {
+	    List<Student> students = new ArrayList<>();
+	    String sql = "SELECT * FROM students";
+
+	    try (Connection con = DBconnection.getConnection();
+	         Statement stmt = con.createStatement();
+	         ResultSet rs = stmt.executeQuery(sql)) {
+
+	        while (rs.next()) {
+	            int id = rs.getInt("id");
+	            String name = rs.getString("name");
+	            int age = rs.getInt("age");
+	            String course = rs.getString("course");
+	            String email = rs.getString("email");
+
+	            Student student = new Student(id, name, age, course, email);
+	            students.add(student);
+	        }
+
+//	        for (Student s : students) {
+//	            System.out.println("ID: " + s.getId() + ", Name: " + s.getName() +
+//	                               ", Age: " + s.getAge() + ", Course: " + s.getCourse() +
+//	                               ", Email: " + s.getEmail());
+//	        }
+
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+
+	    return students;
+	}
+
+}

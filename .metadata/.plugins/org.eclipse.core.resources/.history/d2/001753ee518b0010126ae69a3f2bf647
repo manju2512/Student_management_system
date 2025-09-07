@@ -1,0 +1,23 @@
+package dao;
+import model.Student;
+import db.DBconnection;
+import java.sql.*;
+import java.util.*;
+public class StudentDAO {
+
+	public static void addStudent(Student student) throws SQLException {
+		String sql = "INSERT INTO students (id, name, age, course, email) VALUES (?, ?, ?, ?, ?)";
+		try(Connection con = DBconnection.getConnection();
+				PreparedStatement stmt=con.prepareStatement(sql)){
+			stmt.setInt(1, Student.getId());
+			stmt.setString(2, Student.getName());
+			stmt.setInt(3, Student.getAge());
+			stmt.setString(4, Student.getCourse());
+			stmt.setString(5, Student.getEmail());
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+
+	}
+
+}

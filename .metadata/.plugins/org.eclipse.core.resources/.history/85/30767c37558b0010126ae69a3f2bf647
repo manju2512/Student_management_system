@@ -1,0 +1,43 @@
+package dao;
+import model.Student;
+import db.DBconnection;
+import java.sql.*;
+import java.util.*;
+public class StudentDAO {
+
+	public static void addStudent(Student student) throws SQLException {
+	    String sql = "INSERT INTO students (id, name, age, course, email) VALUES (?, ?, ?, ?, ?)";
+	    try (Connection con = DBconnection.getConnection();
+	         PreparedStatement stmt = con.prepareStatement(sql)) {
+
+	        stmt.setInt(1, student.getId());
+	        stmt.setString(2, student.getName());
+	        stmt.setInt(3, student.getAge());
+	        stmt.setString(4, student.getCourse());
+	        stmt.setString(5, student.getEmail());
+
+	        stmt.executeUpdate(); // ✅ This executes the SQL command
+	        System.out.println("Student added successfully.");
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	}
+	
+	public static void deleteStudent(int id) throws SQLException{
+		String sql="delete from students where id=101";
+		try(Connection con = DBconnection.getConnection();
+				PreparedStatement stmt=con.prepareStatement(sql)){
+			stmt.setInt(1, 101);
+			int rows=stmt.executeUpdate();
+			if(rows>0) {
+				System.out.println("Student deleted successfully.");
+			}else {
+				System.out.println("No student found with id:"+101);
+			}
+		}catch(SQLException e) {
+				e.printStackTrace();
+			}
+			
+	}
+
+}
